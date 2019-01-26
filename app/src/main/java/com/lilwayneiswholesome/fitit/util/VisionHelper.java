@@ -17,16 +17,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class VisionHelper {
-    private static final String CLOUD_VISION_API_KEY = "";
+    private static final String CLOUD_VISION_API_KEY = "AIzaSyCTnBdrd07fs8Cs5IGBZTkX9Mnn4tc04hA";
 
     private static Vision VISION;
-    public static void init() {
+    private static void init() {
         Vision.Builder builder = new Vision.Builder(new NetHttpTransport(), new AndroidJsonFactory(), null);
         builder.setVisionRequestInitializer(new VisionRequestInitializer(CLOUD_VISION_API_KEY));
         VISION = builder.build();
     }
 
     public static String doVision(byte[] imageBytes) throws IOException {
+        if(VISION == null) {
+            init();
+        }
         Image image = new Image();
         image.encodeContent(imageBytes);
 
